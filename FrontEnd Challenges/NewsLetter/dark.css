@@ -1,0 +1,61 @@
+
+.parent{
+    border:2px solid rgba(251, 248, 248, 0.955);
+    text-align:center;
+    border-radius: 20px;
+    width: 70%; /* Set a width */
+    margin: 0 auto;
+    box-shadow: 5px 5px 10px rgba(241, 240, 240, 0.923);
+}
+#toggle{
+    text-align: right;
+    height: 40px;
+    margin-left: 90%;
+    
+}
+.div1 h1,p,.div3 label{
+    /*font-family: 'Dancing Script', cursive;*/
+    font-family: 'Montserrat', sans-serif;
+    color:white;
+}
+.div2 button{
+    background-color: rgb(245, 242, 242);
+    color:rgba(8, 1, 1, 0.863);
+    font-size: larger;
+    border-radius: 10px;
+
+}
+.div2 input{
+    font-size: larger;
+    border-color: 20px solid rgb(218, 28, 28);
+    margin:10px;
+    border-radius: 10px;
+
+}
+.div3{
+    font-size: medium;
+}
+
+@media screen and (max-width:420px) 
+ {
+    .parent{
+        width: 100%;
+    }
+
+    .div2{
+        margin:10px;
+        display:flex ;
+        flex-direction: column;
+    }
+    
+}
+
+.myfooter{
+    border:2px solid black;
+    margin-top: 29vh;
+
+}
+.div4{
+display: flex;
+flex-direction: column;
+}
