@@ -1,45 +1,6 @@
 import { useState } from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { useNavigate } from "react-router-dom";
 
-export function ExpenseChart({ data, colors }) {
-    if (data.length === 0) return <h3>No expenses recorded yet.</h3>;
-
-    return (
-        <PieChart width={400} height={400}>
-            <Pie
-                data={data}
-                dataKey="expense"
-                nameKey="task"
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                fill="#8884d8"
-                label
-            >
-                {data.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-        </PieChart>
-    );
-}
-export function DisplayList({object}){
-    return(
-        <>
-        <ul>
-            {
-                object.map( (item,index)=>(
-                    
-                <li key={index}>{item.task}  {item.expense}</li>
-                    
-                ))
-            }
-        </ul>
-        </>
-    );
-}
 
 export default function DailyExpense(){
     const [object,setObject] = useState([]);
@@ -47,18 +8,22 @@ export default function DailyExpense(){
     const [task,setTask] = useState("");
     const [expense,setExpense] = useState(0);
     const [btn1,setbtn1] = useState(false);
-    const [btn2,setbtn2] = useState(false);
+    //const [btn2,setbtn2] = useState(false);
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28BF6"];
+    const navigate = useNavigate();
 
     function updateArrayofObjects(){
         setObject(
-           [ ...object,{task,expense}]
+          (prev)=> [ ...prev,{task,expense}]
 
         );
         //setTarget(0);
         setTask("");
         setExpense(0);
         
+    }
+    function removeObjects(index){
+        setObject(object.filter((_, i) => i !== index));
     }
     return(
 
@@ -85,14 +50,35 @@ export default function DailyExpense(){
         <input 
         type="number"
         value={expense}
-        placeholder="enter expense" onChange={(e)=>{Number(setExpense(e.target.value) )} }></input>
-        <button onClick={()=>{setbtn2(true);updateArrayofObjects();} }>Add Expense</button>
-        { (btn2 && <DisplayList object={object}/> && <ExpenseChart data={object} colors={COLORS}/>)}
-        </div>
-        </div>
-     
-
+        placeholder="enter expense" onChange={(e)=>{setExpense(Number(e.target.value)) } }></input>
+        <button onClick={()=>{updateArrayofObjects();} }>Add Expense</button>
         
+        </div>
+
+
+        {
+            object.length>0 && 
+            <div>
+        <ul>
+            {
+                object.map( (item,index)=>(
+                    
+                    <li key={index}>task:{item.task}  Expense:{item.expense}
+                    <button onClick={()=>removeObjects(index)}>Delete</button></li>
+                   
+                ))
+            }
+        </ul>
+        </div>
+        }
+
+        {object.length > 0 && (
+        <button onClick={() => navigate("/another", { state: object ,COLORS})}>
+          Go to Chart
+        </button>
+      )}
+
+        </div>        
         </>
     );
 }
